@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		675CFDAC799FC25D11C5773A /* Pods_SwiftProgram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9768203E6F9C99A60646A90F /* Pods_SwiftProgram.framework */; };
+		B42A0DAF246CE6D700C2F9A9 /* MZLogTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42A0DAE246CE6D700C2F9A9 /* MZLogTool.swift */; };
+		B42A0DB1246CE7FA00C2F9A9 /* MZNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42A0DB0246CE7FA00C2F9A9 /* MZNetworkManager.swift */; };
 		B42BE484246B8B3E00AE8C1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42BE483246B8B3E00AE8C1B /* AppDelegate.swift */; };
 		B42BE486246B8B3E00AE8C1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42BE485246B8B3E00AE8C1B /* SceneDelegate.swift */; };
 		B42BE488246B8B3E00AE8C1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42BE487246B8B3E00AE8C1B /* ViewController.swift */; };
@@ -66,6 +68,8 @@
 /* Begin PBXFileReference section */
 		63A9FBF1D038981FD61DC98F /* Pods-SwiftProgram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftProgram.release.xcconfig"; path = "Target Support Files/Pods-SwiftProgram/Pods-SwiftProgram.release.xcconfig"; sourceTree = "<group>"; };
 		9768203E6F9C99A60646A90F /* Pods_SwiftProgram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftProgram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B42A0DAE246CE6D700C2F9A9 /* MZLogTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZLogTool.swift; sourceTree = "<group>"; };
+		B42A0DB0246CE7FA00C2F9A9 /* MZNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZNetworkManager.swift; sourceTree = "<group>"; };
 		B42BE480246B8B3E00AE8C1B /* SwiftProgram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftProgram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B42BE483246B8B3E00AE8C1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B42BE485246B8B3E00AE8C1B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -227,7 +231,9 @@
 		B42BE4B8246B957900AE8C1B /* MZTools */ = {
 			isa = PBXGroup;
 			children = (
+				B42A0DAE246CE6D700C2F9A9 /* MZLogTool.swift */,
 				B42BE4B9246B961F00AE8C1B /* MZGlobalManager.swift */,
+				B42A0DB0246CE7FA00C2F9A9 /* MZNetworkManager.swift */,
 			);
 			path = MZTools;
 			sourceTree = "<group>";
@@ -534,6 +540,7 @@
 				B42BE4D6246BD3A700AE8C1B /* UICollectionView+Extension.swift in Sources */,
 				B42BE4D5246BD3A700AE8C1B /* UIButton+MZHit.swift in Sources */,
 				B42BE4DF246BD5AF00AE8C1B /* MZButtonClickEdgeInsetVC.swift in Sources */,
+				B42A0DB1246CE7FA00C2F9A9 /* MZNetworkManager.swift in Sources */,
 				B42BE4F1246BE4D000AE8C1B /* MZPageControlListVC.swift in Sources */,
 				B42BE4E7246BE08700AE8C1B /* MZBannerView.swift in Sources */,
 				B42BE4DD246BD3A700AE8C1B /* String+Extension.swift in Sources */,
@@ -548,6 +555,7 @@
 				B42BE4ED246BE30200AE8C1B /* MZBannerViewVC.swift in Sources */,
 				B42BE4EF246BE4A600AE8C1B /* MZBannerViewListVC.swift in Sources */,
 				B42BE4BD246B9CEA00AE8C1B /* MZButtonVC.swift in Sources */,
+				B42A0DAF246CE6D700C2F9A9 /* MZLogTool.swift in Sources */,
 				B42BE4F9246BFB1900AE8C1B /* MZAddressModel.swift in Sources */,
 				B42BE4DB246BD3A700AE8C1B /* UIFont+Extension.swift in Sources */,
 				B42BE4F4246BF1A400AE8C1B /* MZAdViewController.swift in Sources */,
