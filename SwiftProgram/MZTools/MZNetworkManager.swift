@@ -32,20 +32,21 @@ class MZNetworkManager: NSObject {
     public func post(urlStr: String, params: [String: Any]?, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
         self.request(urlStr, method: .post, params: params, success: success, failure: failure)
     }
-
+    
     /// 网络请求
     private func request(_ urlString: String, method: HTTPMethod, params: Parameters? = nil, success: @escaping SuccessBlock, failure: @escaping FailureBlock) {
-        let manager = SessionManager.init()
-        let config: URLSessionConfiguration = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 15.0
-        config.timeoutIntervalForResource = 15.0
-        config.requestCachePolicy = .useProtocolCachePolicy
-//        if WPUserInfoManager.shareManager.token != "" {
-//            manager.requestSerializer.setValue(WPUserInfoManager.shareManager.token, forHTTPHeaderField: "Authorization")
-//        }
-        if method == .get {
-            
-        } else if method == .post {
-           
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 15.0
+        configuration.timeoutIntervalForResource = 15.0
+        configuration.requestCachePolicy = .useProtocolCachePolicy
+        let session = Session.init(configuration: configuration, delegate: SessionDelegate())
+        session.request(urlString, method: method, parameters: params).responseJSON { (response) in
+            switch response.result {
+            case .success(let value):
+                success(value as? [String: Any] ?? [String: Any]())
+            case .failure(let error):
+                failure(error)
+            }
         }
+    }
 }

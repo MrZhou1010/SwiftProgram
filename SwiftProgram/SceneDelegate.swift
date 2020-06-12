@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = nav
         })
         let url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589372597330&di=a7d6e2137594a59368c7a919af979ae8&imgtype=0&src=http%3A%2F%2Fimg2.tgbusdata.cn%2Fv2%2Fthumb%2Fjpg%2FZmFlMCwwLDAsNCwzLDEsLTEsMCxyazUw%2Fu%2Folpic.tgbusdata.cn%2Fuploads%2Fallimg%2F130904%2F15-130Z4200F9.gif"
-        let adDuartion = 10
+        let adDuartion: Int = 6
         let adViewBottomDistance: CGFloat = 0.0
         adViewController.setAdParams(url: url, adDuration: adDuartion, skipBtnType: .circle, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClick: {
             let vc = UIViewController()
@@ -68,4 +68,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 }
-

@@ -9,7 +9,7 @@
 import UIKit
 
 /// 主题色
-let kThemeColor: UIColor = UIColor.red
+private let kThemeColor: UIColor = UIColor.red
 
 class MZAddressSelectedView: UIView {
     
@@ -32,18 +32,21 @@ class MZAddressSelectedView: UIView {
     private var regionArr = [MZAddressModel]()      // 街道/乡镇
     
     private var titleArr = ["请选择"]
-    private var selectedDataArr = [MZAddressModel]() /// 选择的数据
+    
+    /// 选择的数据
+    private var selectedDataArr = [MZAddressModel]()
     
     private var titleBtnArr = [UIButton]()
     private var tableViewArr = [UITableView]()
     
-    private var isClick: Bool = false /// 判断是滚动还是点击
+    /// 判断是滚动还是点击
+    private var isClick: Bool = false
     
     // MARK: - Lazy
     private lazy var containView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: 300 * kRectScale))
         view.backgroundColor = UIColor.white
-        view.setCorner(byRoundingCorners: [.topLeft, .topRight], radii: 5.0)
+        view.setCorner(byRoundingCorners: [.topLeft, .topRight], radii: 5.0 * kRectScale)
         return view
     }()
     
@@ -210,7 +213,11 @@ class MZAddressSelectedView: UIView {
         UIView.animate(withDuration: 0.5) {
             self.containView.frame = CGRect(x: 0, y: kScreenHeight - 300 * kRectScale, width: kScreenWidth, height: 300 * kRectScale)
         }
-        UIApplication.shared.keyWindow?.addSubview(self)
+        if #available(iOS 13.0, *) {
+            UIApplication.shared.windows.last?.addSubview(self)
+        } else {
+            UIApplication.shared.keyWindow?.addSubview(self)
+        }
     }
     
     private func dismiss() {

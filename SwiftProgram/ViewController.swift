@@ -25,9 +25,9 @@ class ViewController: UIViewController {
         self.navigationItem.title = "SwiftProgram"
         self.tableView.frame = self.view.bounds
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
+        self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         self.dataSource = ["按钮（图标+文字）", "按钮（扩展点击区域）", "自定义PageControl", "自动轮播图（图片+文字+自定义PageControl）", "地址选择器"]
-        self.tableView.tableFooterView = UIView()
     }
 }
 

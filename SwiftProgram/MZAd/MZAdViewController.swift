@@ -70,7 +70,7 @@ class MZAdViewController: UIViewController {
             var y: CGFloat = 0
             switch skipBtnPosition {
             case .rightBottom:
-                y = kScreenHeight - 50
+                y = kScreenHeight - 50.0
             case .rightAdViewBottom:
                 y = kScreenHeight - self.adViewBottomDistance - 50.0
             default:
@@ -356,4 +356,3 @@ extension MZAdViewController {
         return image!
     }
 }
-
