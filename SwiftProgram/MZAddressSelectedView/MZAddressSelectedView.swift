@@ -26,19 +26,22 @@ class MZAddressSelectedView: UIView {
     /// 设置是否线条渐变
     public var isGradientLine: Bool = false
     
-    private var provinceArr = [MZAddressModel]()    // 省
-    private var cityArr = [MZAddressModel]()        // 市
-    private var countyArr = [MZAddressModel]()      // 区/县
-    private var regionArr = [MZAddressModel]()      // 街道/乡镇
-    
+    /// 省
+    private var provinceArr = [MZAddressModel]()
+    /// 市
+    private var cityArr = [MZAddressModel]()
+    /// 区/县
+    private var countyArr = [MZAddressModel]()
+    /// 街道/乡镇
+    private var regionArr = [MZAddressModel]()
+    /// 标题数组
     private var titleArr = ["请选择"]
-    
-    /// 选择的数据
+    /// 选择的数据数组
     private var selectedDataArr = [MZAddressModel]()
-    
+    /// 按钮数组
     private var titleBtnArr = [UIButton]()
+    /// 数据列表数组
     private var tableViewArr = [UITableView]()
-    
     /// 判断是滚动还是点击
     private var isClick: Bool = false
     
@@ -131,8 +134,7 @@ class MZAddressSelectedView: UIView {
         }
         self.titleBtnArr.removeAll()
         var x: CGFloat = 16 * kRectScale
-        for i in 0 ..< self.titleArr.count {
-            let title: String = self.titleArr[i]
+        for (i, title) in self.titleArr.enumerated() {
             let titleLenth: CGFloat = self.stringForWidth(text: title, fontSize: 13, height: 30 * kRectScale)
             let titleBtn: UIButton = UIButton(type: .custom)
             titleBtn.tag = i
@@ -198,11 +200,11 @@ class MZAddressSelectedView: UIView {
         self.isClick = true
         self.setupOneTableView(btnTag: btn.tag)
         UIView.animate(withDuration: 0.5) {
-            self.lineView.frame = CGRect(x: btn.frame.minX + btn.frame.width * 0.25, y: btn.frame.height - 3, width: btn.frame.width * 0.5, height: 3)
+            self.lineView.frame = CGRect(x: btn.frame.minX + btn.frame.width * 0.25, y: btn.frame.height - 3 * kRectScale, width: btn.frame.width * 0.5, height: 3 * kRectScale)
         }
         if self.isGradientLine {
             self.lineView.backgroundColor = UIColor.clear
-            self.lineView.setGradientColor(colors: [kThemeColor.cgColor, kThemeColor.withAlphaComponent(0.2).cgColor], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5))
+            self.lineView.setGradientColor([kThemeColor.cgColor, kThemeColor.withAlphaComponent(0.2).cgColor], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1.0, y: 0.5))
         }
         self.titleScrollView.addSubview(self.lineView)
         self.contentScrollView.contentOffset = CGPoint(x: CGFloat(btn.tag) * kScreenWidth, y: 0)
@@ -248,7 +250,7 @@ extension MZAddressSelectedView: UIScrollViewDelegate {
                 self.isClick = false
             }
             if self.isClick == false {
-                if offset == CGFloat(offsetIndex)  {
+                if offset == CGFloat(offsetIndex) {
                     let titleBtn: UIButton = self.titleBtnArr[offsetIndex]
                     self.titleBtnClicked(btn: titleBtn)
                 }
@@ -293,7 +295,7 @@ extension MZAddressSelectedView: UITableViewDelegate, UITableViewDataSource {
         } else if tableView.tag == 3 {
             model = self.regionArr[indexPath.row]
         }
-        cell?.textLabel?.text = model.name ?? ""
+        cell?.textLabel?.text = model.name
         cell?.textLabel?.font = UIFont.systemFont(ofSize: 13)
         cell?.textLabel?.textColor = UIColor.black
         cell?.selectionStyle = .none
@@ -306,7 +308,7 @@ extension MZAddressSelectedView: UITableViewDelegate, UITableViewDataSource {
         if tableView.tag == 0 {
             model = self.provinceArr[indexPath.row]
             // 修改标题
-            self.titleArr[tableView.tag] = model.name ?? "请选择"
+            self.titleArr[tableView.tag] = model.name == "" ? "请选择" : model.name
             // 修改选中的index
             if self.selectedDataArr.count > 0 {
                 self.selectedDataArr[tableView.tag] = model
@@ -317,11 +319,11 @@ extension MZAddressSelectedView: UITableViewDelegate, UITableViewDataSource {
                 self.titleArr.append("请选择")
             }
             // 网络请求获取市
-            self.getAreaData(tag: tableView.tag + 1, code: model.code!)
+            self.getAreaData(tag: tableView.tag + 1, code: model.code)
         } else if tableView.tag == 1 {
             model = self.cityArr[indexPath.row]
             // 修改标题
-            self.titleArr[tableView.tag] = model.name ?? "请选择"
+            self.titleArr[tableView.tag] = model.name == "" ? "请选择" : model.name
             // 修改选中的index
             if self.selectedDataArr.count > 1 {
                 self.selectedDataArr[tableView.tag] = model
@@ -332,11 +334,11 @@ extension MZAddressSelectedView: UITableViewDelegate, UITableViewDataSource {
                 self.titleArr.append("请选择")
             }
             // 网络请求获取区/县
-            self.getAreaData(tag: tableView.tag + 1, code: model.code!)
+            self.getAreaData(tag: tableView.tag + 1, code: model.code)
         } else if tableView.tag == 2 {
             model = self.countyArr[indexPath.row]
             // 修改标题
-            self.titleArr[tableView.tag] = model.name ?? "请选择"
+            self.titleArr[tableView.tag] = model.name == "" ? "请选择" : model.name
             // 修改选中的index
             if self.selectedDataArr.count > 2 {
                 self.selectedDataArr[tableView.tag] = model
@@ -347,11 +349,11 @@ extension MZAddressSelectedView: UITableViewDelegate, UITableViewDataSource {
                 self.titleArr.append("请选择")
             }
             // 网络请求获取街道/乡镇
-            self.getAreaData(tag: tableView.tag + 1, code: model.code!)
+            self.getAreaData(tag: tableView.tag + 1, code: model.code)
         } else if tableView.tag == 3 {
             model = self.regionArr[indexPath.row]
             // 修改标题
-            self.titleArr[tableView.tag] = model.name ?? "请选择"
+            self.titleArr[tableView.tag] = model.name == "" ? "请选择" : model.name
             // 修改选中的index
             if self.selectedDataArr.count > 3 {
                 self.selectedDataArr[tableView.tag] = model
@@ -376,8 +378,8 @@ extension MZAddressSelectedView {
             for i in 1 ..< 21 {
                 let dict = ["code":"\(1000 * i)", "name":"第\(i)省"]
                 let model = MZAddressModel.init()
-                model.code = dict["code"]
-                model.name = dict["name"]
+                model.code = dict["code"] ?? ""
+                model.name = dict["name"] ?? ""
                 self.provinceArr.append(model)
             }
             self.tableViewArr[0].reloadData()
@@ -387,8 +389,8 @@ extension MZAddressSelectedView {
             for i in 1 ..< 16 {
                 let dict = ["code":code + "\(i + 1)", "name":"第" + code + "\(i + 1)" + "市"]
                 let model = MZAddressModel.init()
-                model.code = dict["code"]
-                model.name = dict["name"]
+                model.code = dict["code"] ?? ""
+                model.name = dict["name"] ?? ""
                 self.cityArr.append(model)
             }
             self.setupAllTitle(index: 1)
@@ -399,8 +401,8 @@ extension MZAddressSelectedView {
             for i in 1 ..< 20 {
                 let dict = ["code":code + "\(i + 1)", "name":"第" + code + "\(i + 1)" + "县"]
                 let model = MZAddressModel.init()
-                model.code = dict["code"]
-                model.name = dict["name"]
+                model.code = dict["code"] ?? ""
+                model.name = dict["name"] ?? ""
                 self.countyArr.append(model)
             }
             self.setupAllTitle(index: 2)
@@ -411,8 +413,8 @@ extension MZAddressSelectedView {
             for i in 1 ..< 9 {
                 let dict = ["code":code + "\(i + 1)", "name":"第" + code + "\(i + 1)" + "镇"]
                 let model = MZAddressModel.init()
-                model.code = dict["code"]
-                model.name = dict["name"]
+                model.code = dict["code"] ?? ""
+                model.name = dict["name"] ?? ""
                 self.regionArr.append(model)
             }
             self.setupAllTitle(index: 3)
@@ -439,7 +441,7 @@ extension MZAddressSelectedView {
         case 1:
             // 获取市
             self.cityArr.removeAll()
-            WPHomeVM.shareManager.getArea(dic: ["pid":code]) { (data) in
+            WPHomeVM.shareManager.getArea(dic: ["pid": code]) { (data) in
                 for dic in data {
                     let model = MZAddressModel.mj_object(withKeyValues: dic)
                     self.cityArr.append(model!)
@@ -450,7 +452,7 @@ extension MZAddressSelectedView {
         case 2:
             // 获取区/县
             self.countyArr.removeAll()
-            WPHomeVM.shareManager.getArea(dic: ["pid":code]) { (data) in
+            WPHomeVM.shareManager.getArea(dic: ["pid": code]) { (data) in
                 for dic in data {
                     let model = MZAddressModel.mj_object(withKeyValues: dic)
                     self.countyArr.append(model!)
@@ -461,7 +463,7 @@ extension MZAddressSelectedView {
         case 3:
             // 获取街道/乡镇
             self.regionArr.removeAll()
-            WPHomeVM.shareManager.getArea(dic: ["pid":code]) { (data) in
+            WPHomeVM.shareManager.getArea(dic: ["pid": code]) { (data) in
                 for dic in data {
                     let model = MZAddressModel.mj_object(withKeyValues: dic)
                     self.regionArr.append(model!)

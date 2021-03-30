@@ -9,15 +9,15 @@
 import UIKit
 
 public enum MZButtonEdgeInsetsType: Int {
-    case top // image在上,label在下
-    case left // image在左,label在右
+    case top    // image在上,label在下
+    case left   // image在左,label在右
     case bottom // image在下,label在上
-    case right // image在右,label在左
+    case right  // image在右,label在左
 }
 
 class MZButton: UIButton {
     
-    /// 图片大小,默认为(30.0,30.0)
+    /// 图片大小,默认为(30.0, 30.0)
     public var imageSize: CGSize = CGSize(width: 30.0, height: 30.0) {
         didSet {
             self.layoutButtonWithEdgeInsets(type: self.buttonEdgeInsetsType)
@@ -60,33 +60,31 @@ class MZButton: UIButton {
         switch type {
         case .top:
             self.titleLabel?.textAlignment = .center
-            let labelHeight = self.titleLabel?.text?.getSizeWidthComment(font: (self.titleLabel?.font)!, size: CGSize(width: self.frame.width, height: CGFloat(MAXFLOAT))).height
-            let marginY = (self.frame.height - self.imageSize.height - self.spacing - labelHeight!) * 0.5
+            let labelHeight = self.getSizeWithComment(text: self.titleLabel?.text ?? "", font: self.titleLabel?.font ?? UIFont.systemFont(ofSize: 15), size: CGSize(width: self.frame.width, height: CGFloat(MAXFLOAT))).height
+            let marginY = (self.frame.height - self.imageSize.height - self.spacing - labelHeight) * 0.5
             self.imageView?.frame = CGRect(x: (self.frame.width - self.imageSize.width) * 0.5, y: marginY, width: self.imageSize.width, height: self.imageSize.height)
-            self.titleLabel?.frame = CGRect(x: 0, y: (self.imageView?.frame.maxY)! + self.spacing, width: self.frame.width, height: labelHeight!)
+            self.titleLabel?.frame = CGRect(x: 0, y: marginY + self.imageSize.height + self.spacing, width: self.frame.width, height: labelHeight)
         case .bottom:
             self.titleLabel?.textAlignment = .center
-            let labelHeight = self.titleLabel?.text?.getSizeWidthComment(font: (self.titleLabel?.font)!, size: CGSize(width: self.frame.width, height: CGFloat(MAXFLOAT))).height
-            let marginY = (self.frame.height - self.imageSize.height - self.spacing - labelHeight!) * 0.5
-            self.titleLabel?.frame = CGRect(x: 0, y: marginY, width: self.frame.width, height: labelHeight!)
-            self.imageView?.frame = CGRect(x: (self.frame.width - self.imageSize.width) * 0.5, y: (self.titleLabel?.frame.maxY)! + self.spacing, width: self.imageSize.width, height: self.imageSize.height)
+            let labelHeight = self.getSizeWithComment(text: self.titleLabel?.text ?? "", font: self.titleLabel?.font ?? UIFont.systemFont(ofSize: 15), size: CGSize(width: self.frame.width, height: CGFloat(MAXFLOAT))).height
+            let marginY = (self.frame.height - self.imageSize.height - self.spacing - labelHeight) * 0.5
+            self.titleLabel?.frame = CGRect(x: 0, y: marginY, width: self.frame.width, height: labelHeight)
+            self.imageView?.frame = CGRect(x: (self.frame.width - self.imageSize.width) * 0.5, y: marginY + labelHeight + self.spacing, width: self.imageSize.width, height: self.imageSize.height)
         case .left:
-            let labelWidth = self.titleLabel?.text?.getSizeWidthComment(font: (self.titleLabel?.font)!, size: CGSize(width: CGFloat(MAXFLOAT), height: self.frame.height)).width
-            let marginX = (self.frame.width - self.imageSize.width - self.spacing - labelWidth!) * 0.5
+            let labelWidth = self.getSizeWithComment(text: self.titleLabel?.text ?? "", font: self.titleLabel?.font ?? UIFont.systemFont(ofSize: 15), size:CGSize(width: CGFloat(MAXFLOAT), height: self.frame.height)).width
+            let marginX = (self.frame.width - self.imageSize.width - self.spacing - labelWidth) * 0.5
             self.imageView?.frame = CGRect(x: marginX, y: (self.frame.height - self.imageSize.height) * 0.5, width: self.imageSize.width, height: self.imageSize.height)
-            self.titleLabel?.frame = CGRect(x: (self.imageView?.frame.maxX)! + self.spacing, y: 0, width: labelWidth!, height: self.frame.height)
+            self.titleLabel?.frame = CGRect(x: marginX + self.imageSize.width + self.spacing, y: 0, width: labelWidth, height: self.frame.height)
         case .right:
-            let labelWidth = self.titleLabel?.text?.getSizeWidthComment(font: (self.titleLabel?.font)!, size: CGSize(width: CGFloat(MAXFLOAT), height: self.frame.height)).width
-            let marginX = (self.frame.width - self.imageSize.width - self.spacing - labelWidth!) * 0.5
-            self.titleLabel?.frame = CGRect(x: marginX, y: 0, width: labelWidth!, height: self.frame.height)
-            self.imageView?.frame = CGRect(x: (self.titleLabel?.frame.maxX)! + self.spacing, y: (self.frame.height - self.imageSize.height) * 0.5, width: self.imageSize.width, height: self.imageSize.height)
+            let labelWidth = self.getSizeWithComment(text: self.titleLabel?.text ?? "", font: self.titleLabel?.font ?? UIFont.systemFont(ofSize: 15), size:CGSize(width: CGFloat(MAXFLOAT), height: self.frame.height)).width
+            let marginX = (self.frame.width - self.imageSize.width - self.spacing - labelWidth) * 0.5
+            self.titleLabel?.frame = CGRect(x: marginX, y: 0, width: labelWidth, height: self.frame.height)
+            self.imageView?.frame = CGRect(x: marginX + labelWidth + self.spacing, y: (self.frame.height - self.imageSize.height) * 0.5, width: self.imageSize.width, height: self.imageSize.height)
         }
     }
-}
-
-extension String {
-    public func getSizeWidthComment(font: UIFont, size: CGSize) -> CGSize {
-        let rect = self.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+    
+    private func getSizeWithComment(text: String, font: UIFont, size: CGSize) -> CGSize {
+        let rect = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         return rect.size
     }
 }

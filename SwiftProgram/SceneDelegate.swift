@@ -17,21 +17,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
         self.window = UIWindow(windowScene: windowScene)
         self.window?.frame = windowScene.coordinateSpace.bounds
         let mainVC = ViewController()
         let nav = UINavigationController(rootViewController: mainVC)
         nav.navigationBar.backgroundColor = UIColor.blue
-        
         // 广告
         let adViewController = MZAdViewController(defaultDuration: 3, completion: {
             self.window?.rootViewController = nav
         })
-        let url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589372597330&di=a7d6e2137594a59368c7a919af979ae8&imgtype=0&src=http%3A%2F%2Fimg2.tgbusdata.cn%2Fv2%2Fthumb%2Fjpg%2FZmFlMCwwLDAsNCwzLDEsLTEsMCxyazUw%2Fu%2Folpic.tgbusdata.cn%2Fuploads%2Fallimg%2F130904%2F15-130Z4200F9.gif"
-        let adDuartion: Int = 6
+        let urlStr = "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3009739699,3118462613&fm=26&gp=0.jpg"
+        let adDuartion: Int = 3
         let adViewBottomDistance: CGFloat = 0.0
-        adViewController.setAdParams(url: url, adDuration: adDuartion, skipBtnType: .circle, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClick: {
+        adViewController.setAdParams(urlStr: urlStr, adDuration: adDuartion, skipBtnType: .circle, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClicked: {
             let vc = UIViewController()
             vc.view.backgroundColor = UIColor.orange
             mainVC.navigationController?.pushViewController(vc, animated: true)

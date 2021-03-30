@@ -132,6 +132,13 @@ class MZBannerView: UIView {
         }
     }
     
+    /// 是否可以点击pageControl的page,默认为true
+    public var pageControlIsAnimationEnable: Bool = false {
+        didSet {
+            self.pageControl.isAnimationEnable = self.pageControlIsAnimationEnable
+        }
+    }
+    
     /// pageControl的高度,默认为25.0
     public var pageControlHeight: CGFloat = 25.0 {
         didSet {
@@ -211,10 +218,10 @@ class MZBannerView: UIView {
     }
     
     /// 选中item的事件回调
-    public var didSelectedItem: ((Int) -> ())?
+    public var didSelectedItem: ((_ index: Int) -> ())?
     
     /// 滚动到某一位置的事件回调
-    public var didScrollToIndex: ((Int) -> ())?
+    public var didScrollToIndex: ((_ index: Int) -> ())?
     
     // MARK: - Lazy
     private lazy var placeholderImageView: UIImageView = {
@@ -248,7 +255,10 @@ class MZBannerView: UIView {
     
     private lazy var pageControl: MZPageControl = {
         let pageControl = MZPageControl(frame: CGRect(x: 0, y: self.bounds.height - self.pageControlHeight, width: self.bounds.width, height: self.pageControlHeight))
-        pageControl.pageClickBlock = { (index) in
+        pageControl.pageClickBlock = { [weak self] (index) in
+            guard let `self` = self else {
+                return
+            }
             let targetIndex = self.isInfinite ? self.itemsCount / 2 + index : index
             self.scrollToItem(at: IndexPath(item: targetIndex, section: 0))
         }
@@ -259,14 +269,21 @@ class MZBannerView: UIView {
     private var itemsCount: Int = 0
     /// 实际数据的个数
     private var realDataCount: Int = 0
+    /// 轮播类型(本地图片、网络图片、文本)
     private var resourceType: MZBannerResourceType = .image
+    /// 定时器
     private var timer: Timer?
-    
+    /// 本地图片数组
     private var imagesGroup = [UIImage]()
+    /// 网络图片地址数组
     private var imageUrlsGroup = [String]()
+    /// 文本数组
     private var titlesGroup = [NSAttributedString]()
+    /// 描述本地图标数组
     private var titleImagesGroup = [UIImage]()
+    /// 描述网络图标地址数组
     private var titleImageUrlsGroup = [String]()
+    /// 描述图标大小数组
     private var titleImageSizeGroup = [CGSize]()
     
     // MARK: - 初始化和UI
@@ -309,7 +326,6 @@ class MZBannerView: UIView {
 // MARK: - 设置数据
 extension MZBannerView {
     /// 设置本地轮播图片
-    ///
     /// - Parameters:
     ///   - imagesGroup: 轮播图片数组
     ///   - titlesGroup: 描述文字数组
@@ -325,7 +341,6 @@ extension MZBannerView {
     }
     
     /// 设置网络轮播图片
-    ///
     /// - Parameters:
     ///   - urlsGroup: 轮播图片地址数组
     ///   - titlesGroup: 描述文字数组
@@ -341,7 +356,6 @@ extension MZBannerView {
     }
     
     /// 设置轮播文字
-    ///
     /// - Parameters:
     ///   - titlesGroup: 轮播文字数组
     ///   - attributedTitlesGroup: 轮播文字数组
@@ -365,7 +379,6 @@ extension MZBannerView {
     }
     
     /// 设置本地描述图标
-    ///
     /// - Parameters:
     ///   - titleImagesGroup: 描述图标数组
     ///   - sizeGroup: 描述图标尺寸数组
@@ -379,7 +392,6 @@ extension MZBannerView {
     }
     
     /// 设置网络描述图标
-    ///
     /// - Parameters:
     ///   - titleImageUrlsGroup: 描述图标数组
     ///   - sizeGroup: 描述图标尺寸数组
@@ -411,8 +423,8 @@ extension MZBannerView {
         if self.resourceType == .text  {
             self.showPageControl = false
         }
-        if isAutomatic {
-            startTimer()
+        if self.isAutomatic {
+            self.startTimer()
         }
     }
 }
@@ -458,7 +470,7 @@ extension MZBannerView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let centerViewPoint = convert(collectionView.center, to: collectionView)
+        let centerViewPoint = self.convert(collectionView.center, to: collectionView)
         if let centerIndex = collectionView.indexPathForItem(at: centerViewPoint) {
             if indexPath.item == centerIndex.item {
                 let index = indexPath.item % self.realDataCount

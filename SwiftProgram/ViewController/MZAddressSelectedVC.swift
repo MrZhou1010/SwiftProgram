@@ -2,20 +2,24 @@
 //  MZAddressSelectedVC.swift
 //  SwiftProgram
 //
-//  Created by 木木 on 2020/5/13.
+//  Created by Mr.Z on 2020/5/13.
 //  Copyright © 2020 Mr.Z. All rights reserved.
 //
 
 import UIKit
 
 class MZAddressSelectedVC: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "地址选择器"
+        self.setupUI()
+    }
+    
+    private func setupUI() {
         let addressBtn = UIButton(type: .custom)
-        addressBtn.frame = CGRect(x: 16, y: 200, width: UIScreen.main.bounds.size.width - 32, height: 50)
+        addressBtn.frame = CGRect(x: 16.0, y: 200.0, width: UIScreen.main.bounds.size.width - 32.0, height: 50.0)
         addressBtn.backgroundColor = UIColor.orange
         addressBtn.layer.cornerRadius = 5.0
         addressBtn.setTitle("选择地址", for: .normal)
@@ -32,7 +36,7 @@ class MZAddressSelectedVC: UIViewController {
         addressSelectedView.callBackBlock = { (modelArr) in
             var value = ""
             for model in modelArr {
-                value = value + model.name! + " "
+                value = value + model.name + " "
             }
             value = value.trimmingCharacters(in: .whitespaces)
             btn.setTitle(value, for: .normal)

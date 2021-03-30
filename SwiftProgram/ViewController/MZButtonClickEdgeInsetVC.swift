@@ -13,7 +13,7 @@ class MZButtonClickEdgeInsetVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "按钮（扩展点击区域）"
+        self.navigationItem.title = "按钮(扩展点击区域)"
         self.setupUI()
     }
     
